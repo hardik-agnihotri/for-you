@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>For You ✨ Breathtaking</title>
+    <!-- Tailwind CSS for modern responsive utility styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter and Dancing Script for romantic typography -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <!-- FontAwesome for romantic icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        overflow-x: hidden;
+      }
+      .romantic-font {
+        font-family: "Dancing Script", cursive;
+      }
+      /* Glassmorphism card effect */
+      .glass-card {
+        background: rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+      }
+      /* Glowing neon shadow */
+      .glow-effect {
+        box-shadow:
+          0 0 35px rgba(236, 72, 153, 0.5),
+          0 0 70px rgba(168, 85, 247, 0.3);
+      }
+      /* Floating animations */
+      @keyframes floatSlow {
+        0%,
+        100% {
+          transform: translateY(0px) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-15px) rotate(3deg);
+        }
+      }
+      .animate-float {
+        animation: floatSlow 6s ease-in-out infinite;
+      }
+      @keyframes pulseGlow {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 0.8;
+        }
+        50% {
+          transform: scale(1.05);
+          opacity: 1;
+          filter: drop-shadow(0 0 25px rgba(244, 63, 94, 0.8));
+        }
+      }
+      .animate-pulse-glow {
+        animation: pulseGlow 3s ease-in-out infinite;
+      }
+      /* Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.1);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: rgba(244, 63, 94, 0.5);
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-gradient-to-br from-slate-950 via-purple-950 to-rose-950 min-h-screen text-white flex flex-col justify-between relative selection:bg-rose-500 selection:text-white"
+  >
+    <!-- Canvas for floating star/heart particle system -->
+    <canvas
+      id="particleCanvas"
+      class="fixed inset-0 pointer-events-none z-0"
+    ></canvas>
+
+    <!-- Top Navigation / Ambient Music Toggle bar -->
+    <header
+      class="w-full p-6 flex justify-between items-center z-20 max-w-5xl mx-auto"
+    >
+      <div class="flex items-center space-x-2">
+        <span class="inline-block animate-bounce text-rose-400 text-xl"
+          ><i class="fa-solid fa-heart"></i
+        ></span>
+        <span
+          class="text-sm tracking-wider uppercase font-medium text-rose-200/80"
+          >Special Delivery</span
+        >
+      </div>
+      <button
+        id="musicToggle"
+        class="glass-card px-4 py-2 rounded-full text-xs font-semibold tracking-wider flex items-center space-x-2 hover:bg-white/20 transition-all duration-300 cursor-pointer"
+      >
+        <i id="musicIcon" class="fa-solid fa-music text-rose-400"></i>
+        <span id="musicText">Ambient Vibe: Off</span>
+      </button>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow flex items-center justify-center px-4 py-8 z-10">
+      <div
+        class="glass-card rounded-3xl p-8 md:p-12 max-w-xl w-full text-center animate-float relative overflow-hidden glow-effect"
+      >
+        <!-- Decorative background glow sphere -->
+        <div
+          class="absolute -top-24 -left-24 w-48 h-48 bg-rose-500/30 rounded-full blur-3xl pointer-events-none"
+        ></div>
+        <div
+          class="absolute -bottom-24 -right-24 w-48 h-48 bg-purple-500/30 rounded-full blur-3xl pointer-events-none"
+        ></div>
+
+        <!-- Header Icon Badge -->
+        <div
+          class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-tr from-rose-500 to-purple-600 mb-6 shadow-lg shadow-rose-500/40 animate-pulse-glow"
+        >
+          <i class="fa-solid fa-face-smile-beam text-3xl text-white"></i>
+        </div>
+
+        <!-- Romantic Greeting Title -->
+        <h1
+          class="romantic-font text-5xl md:text-6xl font-bold bg-gradient-to-r from-rose-300 via-pink-200 to-purple-300 bg-clip-text text-transparent mb-4 leading-tight"
+        >
+          To Someone Absolutely Breathtaking...
+        </h1>
+
+        <!-- Typewriter Message Box -->
+        <div class="min-h-[80px] flex items-center justify-center mb-8">
+          <p
+            id="typewriterText"
+            class="text-lg md:text-xl text-rose-100/90 font-light leading-relaxed tracking-wide"
+          ></p>
+        </div>
+
+        <!-- Interactive Buttons Group -->
+        <div
+          class="flex flex-col sm:flex-row items-center justify-center gap-4"
+        >
+          <button
+            id="surpriseBtn"
+            class="w-full sm:w-auto px-8 py-4 rounded-full bg-gradient-to-r from-rose-500 via-pink-500 to-purple-600 text-white font-semibold shadow-lg shadow-rose-500/30 hover:shadow-rose-500/60 hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center space-x-3 cursor-pointer"
+          >
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            <span>Click For A Compliment</span>
+          </button>
+          <button
+            id="secretLoveBtn"
+            class="w-full sm:w-auto px-6 py-4 rounded-full glass-card text-rose-200 font-medium hover:bg-white/20 hover:text-white transition-all duration-300 flex items-center justify-center space-x-2 cursor-pointer"
+          >
+            <i class="fa-solid fa-envelope-open-text"></i>
+            <span>Read Note</span>
+          </button>
+        </div>
+
+        <!-- Dynamic Compliment Display Area -->
+        <div
+          id="complimentCard"
+          class="mt-8 p-4 rounded-2xl bg-white/5 border border-white/10 hidden transform transition-all duration-500"
+        >
+          <p
+            id="complimentText"
+            class="text-rose-200 font-medium italic text-base"
+          ></p>
+        </div>
+      </div>
+    </main>
+
+    <!-- Modal Popup for Secret Note -->
+    <div
+      id="noteModal"
+      class="fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300"
+    >
+      <div
+        class="glass-card rounded-3xl p-8 max-w-md w-full relative border border-rose-500/30 shadow-2xl text-center"
+      >
+        <button
+          id="closeModal"
+          class="absolute top-4 right-4 text-rose-300 hover:text-white text-xl w-8 h-8 rounded-full bg-white/10 flex items-center justify-center transition-colors cursor-pointer"
+        >
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div class="text-rose-400 text-3xl mb-3">
+          <i class="fa-solid fa-heart-pulse"></i>
+        </div>
+        <h3 class="romantic-font text-3xl text-rose-200 mb-4">
+          Just in case nobody told you...
+        </h3>
+        <p
+          class="text-rose-100/90 leading-relaxed text-sm md:text-base font-light mb-6"
+        >
+          You walked into the room today and completely redefined what elegance
+          looks like. Your smile, your energy, and the way you carry yourself
+          are effortlessly captivating. I just had to remind you how stunning
+          you look today! ✨
+        </p>
+        <div
+          class="inline-block px-6 py-2 rounded-full bg-rose-500/20 text-rose-300 text-xs tracking-wider uppercase font-semibold"
+        >
+          Made with endless smiles for you
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="w-full p-6 text-center text-xs text-rose-300/60 z-20">
+      <p>Designed with warmth & admiration &bull; Have a wonderful day! 💖</p>
+    </footer>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+      // --- 1. Particle System (Floating Hearts & Glowing Sparkles) ---
+      const canvas = document.getElementById("particleCanvas");
+      const ctx = canvas.getContext("2d");
+
+      let particles = [];
+      let mouseTrail = [];
+
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      window.addEventListener("resize", resizeCanvas);
+      resizeCanvas();
+
+      class Particle {
+        constructor(x, y, isTrail = false) {
+          this.x = x || Math.random() * canvas.width;
+          this.y = y || canvas.height + 20;
+          this.size = isTrail ? Math.random() * 4 + 2 : Math.random() * 8 + 4;
+          this.speedY = isTrail
+            ? -(Math.random() * 1.5 + 0.5)
+            : -(Math.random() * 1.2 + 0.6);
+          this.speedX = (Math.random() - 0.5) * 1.2;
+          this.rotation = Math.random() * 360;
+          this.rotSpeed = (Math.random() - 0.5) * 2;
+          this.opacity = isTrail ? 1 : Math.random() * 0.7 + 0.3;
+          this.fadeRate = isTrail ? 0.03 : 0.002;
+          this.color =
+            Math.random() > 0.4 ? "rgba(244, 63, 94, " : "rgba(168, 85, 247, ";
+          this.isHeart = Math.random() > 0.3;
+        }
+
+        update() {
+          this.y += this.speedY;
+          this.x += this.speedX + Math.sin(this.y * 0.02) * 0.5;
+          this.rotation += this.rotSpeed;
+          this.opacity -= this.fadeRate;
+        }
+
+        draw() {
+          ctx.save();
+          ctx.translate(this.x, this.y);
+          ctx.rotate((this.rotation * Math.PI) / 180);
+          ctx.globalAlpha = Math.max(0, this.opacity);
+
+          if (this.isHeart) {
+            // Draw tiny heart path
+            ctx.fillStyle = this.color + this.opacity + ")";
+            ctx.beginPath();
+            let s = this.size * 0.6;
+            ctx.moveTo(0, s);
+            ctx.bezierCurveTo(-s, -s, -s * 2, s * 0.5, 0, s * 2);
+            ctx.bezierCurveTo(s * 2, s * 0.5, s, -s, 0, s);
+            ctx.fill();
+          } else {
+            // Draw glowing star/sparkle dot
+            ctx.fillStyle = this.color + this.opacity + ")";
+            ctx.beginPath();
+            ctx.arc(0, 0, this.size * 0.5, 0, Math.PI * 2);
+            ctx.fill();
+          }
+          ctx.restore();
+        }
+      }
+
+      // Initialize background ambient particles
+      for (let i = 0; i < 40; i++) {
+        let p = new Particle();
+        p.y = Math.random() * canvas.height;
+        particles.push(p);
+      }
+
+      // Mouse/Touch move handler for interactive trail
+      window.addEventListener("mousemove", (e) => {
+        if (Math.random() > 0.4) {
+          particles.push(new Particle(e.clientX, e.clientY, true));
+        }
+      });
+
+      window.addEventListener(
+        "touchmove",
+        (e) => {
+          if (e.touches.length > 0 && Math.random() > 0.3) {
+            let touch = e.touches[0];
+            particles.push(new Particle(touch.clientX, touch.clientY, true));
+          }
+        },
+        { passive: true },
+      );
+
+      function animateParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Maintain background particles count
+        if (particles.length < 50 && Math.random() > 0.1) {
+          particles.push(new Particle());
+        }
+
+        for (let i = particles.length - 1; i >= 0; i--) {
+          particles[i].update();
+          particles[i].draw();
+          if (particles[i].opacity <= 0 || particles[i].y < -20) {
+            particles.splice(i, 1);
+          }
+        }
+        requestAnimationFrame(animateParticles);
+      }
+      animateParticles();
+
+      // --- 2. Typewriter Effect ---
+      const message =
+        "You looked exceptionally breathtaking today, and I just couldn't scroll past without telling you...";
+      const typewriterEl = document.getElementById("typewriterText");
+      let charIndex = 0;
+
+      function typeWriter() {
+        if (charIndex < message.length) {
+          typewriterEl.textContent += message.charAt(charIndex);
+          charIndex++;
+          setTimeout(typeWriter, 45);
+        }
+      }
+      setTimeout(typeWriter, 600);
+
+      // --- 3. Compliments Generator Array ---
+      const compliments = [
+        "✨ That smile of yours literally lights up the entire room!",
+        "💖 Your energy today is pure magic. Absolutely radiant!",
+        "🌹 Is it even legal to look this effortlessly gorgeous?",
+        "💫 Everything looks prettier when you're around.",
+        "🌟 Absolute perfection from head to toe today!",
+        "🔥 Stopping traffic with that look today, aren't we?",
+      ];
+
+      const surpriseBtn = document.getElementById("surpriseBtn");
+      const complimentCard = document.getElementById("complimentCard");
+      const complimentText = document.getElementById("complimentText");
+
+      surpriseBtn.addEventListener("click", () => {
+        // Pick a random compliment
+        const randomComp =
+          compliments[Math.floor(Math.random() * compliments.length)];
+        complimentText.textContent = randomComp;
+        complimentCard.classList.remove("hidden");
+
+        // Trigger extra burst of heart particles around button center
+        const rect = surpriseBtn.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        for (let i = 0; i < 15; i++) {
+          let p = new Particle(cx, cy, true);
+          p.speedX = (Math.random() - 0.5) * 6;
+          p.speedY = (Math.random() - 0.5) * 6 - 2;
+          particles.push(p);
+        }
+      });
+
+      // --- 4. Modal Popup Handling ---
+      const secretLoveBtn = document.getElementById("secretLoveBtn");
+      const noteModal = document.getElementById("noteModal");
+      const closeModal = document.getElementById("closeModal");
+
+      secretLoveBtn.addEventListener("click", () => {
+        noteModal.classList.remove("hidden");
+        setTimeout(() => noteModal.classList.remove("opacity-0"), 10);
+      });
+
+      closeModal.addEventListener("click", () => {
+        noteModal.classList.add("opacity-0");
+        setTimeout(() => noteModal.classList.add("hidden"), 300);
+      });
+
+      noteModal.addEventListener("click", (e) => {
+        if (e.target === noteModal) {
+          noteModal.classList.add("opacity-0");
+          setTimeout(() => noteModal.classList.add("hidden"), 300);
+        }
+      });
+
+      // --- 5. Web Audio API Ambient Romantic Chord Generator ---
+      let audioCtx = null;
+      let isPlaying = false;
+      let oscillatorNodes = [];
+      let gainNode = null;
+
+      const musicToggle = document.getElementById("musicToggle");
+      const musicIcon = document.getElementById("musicIcon");
+      const musicText = document.getElementById("musicText");
+
+      musicToggle.addEventListener("click", () => {
+        if (!isPlaying) {
+          try {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            gainNode = audioCtx.createGain();
+            gainNode.gain.setValueAtTime(0.08, audioCtx.currentTime);
+            gainNode.connect(audioCtx.destination);
+
+            // Gentle romantic chord frequencies (Frequencies for a warm soft pad chord: C4, E4, G4, B4)
+            const frequencies = [261.63, 329.63, 392.0, 493.88];
+            oscillatorNodes = frequencies.map((freq) => {
+              let osc = audioCtx.createOscillator();
+              osc.type = "sine";
+              osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+              osc.connect(gainNode);
+              osc.start();
+              return osc;
+            });
+
+            isPlaying = true;
+            musicIcon.className =
+              "fa-solid fa-volume-high text-rose-400 animate-pulse";
+            musicText.textContent = "Ambient Vibe: On";
+          } catch (e) {
+            console.log("Audio context blocked or unsupported", e);
+          }
+        } else {
+          if (audioCtx) {
+            oscillatorNodes.forEach((osc) => osc.stop());
+            audioCtx.close();
+          }
+          isPlaying = false;
+          musicIcon.className = "fa-solid fa-music text-rose-400";
+          musicText.textContent = "Ambient Vibe: Off";
+        }
+      });
+    </script>
+  </body>
+</html>
